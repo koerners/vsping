@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load materializecss %}
+{% block content %}
+    <div class="row">
+        <ul>
+            <li>{{ userjob.id }}</li>
+            <li>{{ userjob.name }}</li>
+            <li>{{ userjob.url }}</li>
+            <li>{{ userjob.date_added }}</li>
+            <li>{{ userjob.last_checked }}</li>
+            <li>{{ userjob.last_change }}</li>
+            <li>{{ userjob.is_active }}</li>
+
+        </ul>
+
+    </div>
+{% endblock %}

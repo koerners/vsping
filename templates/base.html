@@ -27,16 +27,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/js/materialize.min.js"
             integrity="sha256-SrBfGi+Zp2LhAvy9M1bWOCXztRU9Ztztxmu5BcYPcPE=" crossorigin="anonymous"></script>
 
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
+
     <script>
         $(document).ready(function () {
 
             // Initialize materialize data picker
-            $('.datepicker').datepicker({'format': 'dd-mm-yyyy'});
             $('select').formSelect();
             $(".dropdown-trigger").dropdown();
 
             $("#preloader").addClass("hide");
-
 
         });
     </script>
@@ -64,7 +64,8 @@
     <div class="nav-wrapper">
         <a href="#!" class="brand-logo">VSPing</a>
         <ul class="right hide-on-med-and-down">
-            <li><a href="{% url 'dashboard' %}">My Sites</a></li>
+            <li><a href="{% url 'new_job' %}">New Job</a></li>
+            <li><a href="{% url 'dashboard' %}">Monitoring</a></li>
             <!-- Dropdown Trigger -->
             <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ user.username|default:'Guest' }}<i
                     class="material-icons right">arrow_drop_down</i></a></li>
