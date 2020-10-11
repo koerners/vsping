@@ -1,3 +1,4 @@
+import urllib.request
 from datetime import datetime
 
 from django.contrib.auth import login
@@ -9,6 +10,7 @@ from django.urls import reverse
 
 from sitechecker.forms import CustomUserCreationForm, JobForm
 from sitechecker.models import Job
+from sitechecker.src.controller import get_screenshot
 
 
 @login_required
@@ -53,6 +55,17 @@ def new_job(request):
             job = form.save(commit=False)
             job.owner = request.user
             job.date_added = datetime.now()
+            try:
+                fp = urllib.request.urlopen(str(job.url))
+                mybytes = fp.read()
+                job.html_current = mybytes
+
+            except:
+                pass
+
+            job.screenshot = get_screenshot(job.url)
+
+
             job.save()
 
             return redirect("job_detail", job_id=job.id)

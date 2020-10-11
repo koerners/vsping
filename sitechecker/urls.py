@@ -1,7 +1,7 @@
-
+from django.conf import settings
 from django.conf.urls import url
 from django.urls import include, path
-
+from django.conf.urls.static import static
 from sitechecker.views import dashboard, register, new_job, job_detail, landing
 
 urlpatterns = [
