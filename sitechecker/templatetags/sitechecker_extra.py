@@ -4,7 +4,7 @@ from django.template.defaulttags import register
 
 
 @register.filter
-def bin_2_img(_bin):
+def binary2str(_bin):
     if _bin is not None: return b64encode(_bin).decode('utf-8')
 
 

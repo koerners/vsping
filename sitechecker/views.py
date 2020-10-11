@@ -1,4 +1,3 @@
-import urllib.request
 from datetime import datetime
 
 from django.contrib.auth import login
@@ -9,13 +8,13 @@ from django.urls import reverse
 
 from sitechecker.forms import CustomUserCreationForm, JobForm, UpdateJobForm
 from sitechecker.models import Job
-from sitechecker.src.controller import get_screenshot, compareSite
+from sitechecker.src.controller import get_screenshot, get_html
 
 
 @login_required
 def dashboard(request):
     context = {
-        'userjobs': Job.objects.filter(owner=request.user)
+        'userjobs': Job.objects.filter(owner=request.user).order_by('-id')
     }
 
     return render(request, "dashboard.html", context)
@@ -34,8 +33,6 @@ def job_detail(request, job_id):
     context = {
         'userjob': user_job[0]
     }
-
-    print(compareSite(user_job[0]))
 
     return render(request, "job_detail.html", context)
 
@@ -57,10 +54,31 @@ def job_edit(request, job_id):
     else:
         form = UpdateJobForm(instance=user_job)
 
-    return render(request, 'edit_job.html', {
-        'userjob': user_job,
-        'form': form,
-    })
+    return render(request, 'edit_job.html', {'form': form})
+
+
+@login_required
+def job_reset(request, job_id):
+    user_job = Job.objects.filter(owner=request.user, id=int(job_id))
+    if len(user_job) < 1:
+        return redirect(reverse("dashboard"))
+
+    user_job = user_job[0]
+    user_job.similarity = 1
+
+    return redirect("job_detail", job_id=user_job.id)
+
+
+@login_required
+def job_delete(request, job_id):
+    user_job = Job.objects.filter(owner=request.user, id=int(job_id))
+    if len(user_job) < 1:
+        return redirect(reverse("dashboard"))
+
+    user_job = user_job[0]
+    user_job.delete()
+
+    return redirect(reverse("dashboard"))
 
 
 @login_required
@@ -79,14 +97,10 @@ def new_job(request):
             job.owner = request.user
             job.date_added = datetime.now()
             try:
-                fp = urllib.request.urlopen(str(job.url))
-                html_bytes = fp.read()
-                job.html_current = html_bytes
-
+                job.html_current = get_html(str(job.url))
+                job.screenshot = get_screenshot(job.url)
             except:
                 pass
-
-            job.screenshot = get_screenshot(job.url)
 
             job.save()
 

@@ -12,6 +12,13 @@
                 </button>
             </form>
         </div>
-
     </div>
+
+    <script>
+        $("form").submit(function (event) {
+            $("#preloader").removeClass("hide");
+
+        });
+
+    </script>
 {% endblock %}

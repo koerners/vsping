@@ -1,11 +1,11 @@
-import urllib
+from difflib import SequenceMatcher
 
-from html_similarity import similarity
+import requests
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from sitechecker.models import Job
-from sitechecker.templatetags.sitechecker_extra import bin_2_img
 
 
 def get_screenshot(url):
@@ -26,11 +26,15 @@ def get_screenshot(url):
     return None
 
 
-def compareSite(job: Job):
-    fp = urllib.request.urlopen(str(job.url))
-    html_bytes = fp.read()
-    sim = similarity(bin_2_img(html_bytes), bin_2_img(job.html_current))
-    job.html_current = html_bytes
-    job.similarity = sim
+def get_html(url):
+    main_url = str(url)
+    req = requests.get(main_url)
+    soup = BeautifulSoup(req.text, "html.parser").text
+    text = " ".join([ll.rstrip() for ll in soup.splitlines() if ll.strip()])
+    return text.encode("utf-8")
 
-    return sim
+
+def compareSite(job: Job):
+    old = job.html_current.decode("utf-8")
+    new = get_html(job.url)
+    job.similarity = SequenceMatcher(None, old, new).ratio()
