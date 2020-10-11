@@ -15,46 +15,54 @@
 
     <div class="row">
         <div class="col s6">
-            <img alt="Embedded Image" src="data:image;base64,{{ userjob.screenshot | bin_2_img }}"
+            <img alt="No Screenshot available" src="data:image;base64,{{ userjob.screenshot | bin_2_img }}"
                  style="width: 100%; height:100%"/>
         </div>
         <div class="col s5 offset-s1">
 
-            <table>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th></th>
-                </tr>
-                </thead>
+            <div class="row">
 
-                <tbody>
-                <tr>
-                    <td>URL</td>
-                    <td><a href="{{ userjob.url }}" target="_blank">{{ userjob.url }}</a></td>
-                </tr>
-                <tr>
-                    <td>Date Added</td>
-                    <td>{{ userjob.date_added }}</td>
-                </tr>
-                <tr>
-                    <td>Last Checked</td>
-                    <td>{{ userjob.last_checked }}</td>
-                </tr>
-                <tr>
-                    <td>Last Change</td>
-                    <td>{{ userjob.last_change }}</td>
-                </tr>
-                <tr>
-                    <td>Active</td>
-                    <td>{{ userjob.is_active }}</td>
-                </tr>
-                <tr>
-                    <td>Check every</td>
-                    <td>{{ userjob.check_every }} min</td>
-                </tr>
-                </tbody>
-            </table>
+                <table>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>URL</td>
+                        <td><a href="{{ userjob.url }}" target="_blank">{{ userjob.url }}</a></td>
+                    </tr>
+                    <tr>
+                        <td>Date Added</td>
+                        <td>{{ userjob.date_added }}</td>
+                    </tr>
+                    <tr>
+                        <td>Last Checked</td>
+                        <td>{{ userjob.last_checked }}</td>
+                    </tr>
+                    <tr>
+                        <td>Last Change</td>
+                        <td>{{ userjob.last_change }}</td>
+                    </tr>
+                    <tr>
+                        <td>Active</td>
+                        <td>{{ userjob.is_active }}</td>
+                    </tr>
+                    <tr>
+                        <td>Check every</td>
+                        <td>{{ userjob.check_every }} min</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row">
+                <a href="{% url 'job_edit' job_id=userjob.id %}" class="waves-effect waves-light btn"
+                   style="float: right"><i class="material-icons right">settings</i>Edit</a>
+            </div>
 
         </div>
 

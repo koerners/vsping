@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django import forms
 from django.forms import ModelForm
 
 from sitechecker.models import Job
@@ -20,3 +19,8 @@ class JobForm(ModelForm):
     class Meta:
         model = Job
         fields = ['name', 'url', 'check_every']
+
+class UpdateJobForm(ModelForm):
+    class Meta:
+        model = Job
+        fields = ['name', 'url', 'check_every', 'is_active']
