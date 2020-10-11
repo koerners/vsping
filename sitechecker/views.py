@@ -20,6 +20,10 @@ def dashboard(request):
 
     return render(request, "dashboard.html", context)
 
+def landing(request):
+    return render(request, "landing.html")
+
+
 
 
 @login_required
@@ -50,7 +54,8 @@ def new_job(request):
             job.owner = request.user
             job.date_added = datetime.now()
             job.save()
-            return redirect(reverse("dashboard"))
+
+            return redirect("job_detail", job_id=job.id)
 
 
 def register(request):

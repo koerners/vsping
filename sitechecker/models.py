@@ -8,9 +8,9 @@ from django.db import models
 class Job(models.Model):
     id = models.AutoField(primary_key=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    date_added = models.DateField()
-    last_checked = models.DateField(null=True)
-    last_change = models.DateField(null=True)
+    date_added = models.DateTimeField()
+    last_checked = models.DateTimeField(null=True)
+    last_change = models.DateTimeField(null=True)
     is_active = models.BooleanField(default=True)
 
     url = models.URLField(max_length=100)

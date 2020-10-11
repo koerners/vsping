@@ -19,4 +19,4 @@ class CustomUserCreationForm(UserCreationForm):
 class JobForm(ModelForm):
     class Meta:
         model = Job
-        fields = ['name', 'url', 'check_every', 'check_until']
+        fields = ['name', 'url', 'check_every']

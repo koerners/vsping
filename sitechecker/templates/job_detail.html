@@ -1,17 +1,63 @@
 {% extends 'base.html' %}
 {% load materializecss %}
 {% block content %}
-    <div class="row">
-        <ul>
-            <li>{{ userjob.id }}</li>
-            <li>{{ userjob.name }}</li>
-            <li>{{ userjob.url }}</li>
-            <li>{{ userjob.date_added }}</li>
-            <li>{{ userjob.last_checked }}</li>
-            <li>{{ userjob.last_change }}</li>
-            <li>{{ userjob.is_active }}</li>
 
-        </ul>
+    <style>
+    td{
+        min-width: 10%!important;
+    }
+
+    </style>
+
+    <div class="row">
+        <h4>{{ userjob.name }}</h4>
+
+
+    </div>
+
+    <div class="row">
+
+        <div class="col s6 offset-s6">
+
+            <table>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>URL</td>
+                    <td><a href="{{ userjob.url }}" target="_blank">{{ userjob.url }}</a></td>
+                </tr>
+                <tr>
+                    <td>Date Added</td>
+                    <td>{{ userjob.date_added }}</td>
+                </tr>
+                <tr>
+                    <td>Last Checked</td>
+                    <td>{{ userjob.last_checked }}</td>
+                </tr>
+                <tr>
+                    <td>Last Change</td>
+                    <td>{{ userjob.last_change }}</td>
+                </tr>
+                <tr>
+                    <td>Active</td>
+                    <td>{{ userjob.is_active }}</td>
+                </tr>
+               <tr>
+                    <td>Check every </td>
+                    <td>{{ userjob.check_every }} min</td>
+                </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+
 
     </div>
 {% endblock %}
