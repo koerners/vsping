@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
@@ -20,7 +21,15 @@ class JobForm(ModelForm):
         model = Job
         fields = ['name', 'url', 'check_every']
 
+
 class UpdateJobForm(ModelForm):
     class Meta:
         model = Job
-        fields = ['name', 'url', 'check_every', 'is_active']
+        fields = ['name', 'url', 'check_every', 'threshold', 'is_active']
+
+        widgets = {
+            'threshold': forms.NumberInput(attrs={'min': 0, 'max': 100})
+        }
+        labels = {
+            'threshold': 'Alert Threshold in %'
+        }

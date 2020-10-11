@@ -9,7 +9,7 @@ from django.urls import reverse
 
 from sitechecker.forms import CustomUserCreationForm, JobForm, UpdateJobForm
 from sitechecker.models import Job
-from sitechecker.src.controller import get_screenshot
+from sitechecker.src.controller import get_screenshot, compareSite
 
 
 @login_required
@@ -34,6 +34,8 @@ def job_detail(request, job_id):
     context = {
         'userjob': user_job[0]
     }
+
+    print(compareSite(user_job[0]))
 
     return render(request, "job_detail.html", context)
 
@@ -78,8 +80,8 @@ def new_job(request):
             job.date_added = datetime.now()
             try:
                 fp = urllib.request.urlopen(str(job.url))
-                mybytes = fp.read()
-                job.html_current = mybytes
+                html_bytes = fp.read()
+                job.html_current = html_bytes
 
             except:
                 pass

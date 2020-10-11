@@ -48,6 +48,15 @@
                         <td>{{ userjob.last_change }}</td>
                     </tr>
                     <tr>
+                        <td>Curren Similarity</td>
+                        <td>{{ userjob.similarity|formatpercent }}%</td>
+                    </tr>
+                    <tr>
+                        <td>Alert Threshold</td>
+                        <td>{{ userjob.threshold }}%</td>
+                    </tr>
+                    <tr>
+                    <tr>
                         <td>Active</td>
                         <td>{{ userjob.is_active }}</td>
                     </tr>

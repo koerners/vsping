@@ -1,13 +1,15 @@
-import base64
-import urllib.parse as urlparse
+import urllib
 
+from html_similarity import similarity
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+
+from sitechecker.models import Job
+from sitechecker.templatetags.sitechecker_extra import bin_2_img
 
 
 def get_screenshot(url):
     if url is not None and url != '':
-
         CHROMEDRIVER_PATH = '/usr/lib/chromium-browser/chromedriver'
         WINDOW_SIZE = "800,1080"
 
@@ -22,3 +24,13 @@ def get_screenshot(url):
         return screenshot
 
     return None
+
+
+def compareSite(job: Job):
+    fp = urllib.request.urlopen(str(job.url))
+    html_bytes = fp.read()
+    sim = similarity(bin_2_img(html_bytes), bin_2_img(job.html_current))
+    job.html_current = html_bytes
+    job.similarity = sim
+
+    return sim
