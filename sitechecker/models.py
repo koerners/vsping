@@ -22,6 +22,7 @@ class Job(models.Model):
     screenshot = models.BinaryField(null=True)
     similarity = models.DecimalField(null=True, default=1, decimal_places=2, max_digits=23)
     threshold = models.DecimalField(null=True, default=98, decimal_places=1, max_digits=23)
-    # method = models.CharField(max_length=100,
-    #                                choices=[('Changes in Content', 'Changes in Content'), ('String exists', 'String exists')])
-    # search_string = models.CharField(max_length=100, null=True)
+    method = models.CharField(max_length=100,
+                              choices=[('Changes in Content', 'Changes in Content'),
+                                       ('String exists', 'String exists')])
+    search_string = models.CharField(max_length=100, null=True)

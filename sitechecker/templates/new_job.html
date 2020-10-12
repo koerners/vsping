@@ -20,5 +20,18 @@
 
         });
 
+        $('select').on('change', function (e) {
+            var valueSelected = this.value;
+            if (valueSelected === "Changes in Content") {
+                $('#id_threshold').parent().removeClass("hide");
+                $('#id_search_string').parent().addClass("hide");
+
+            } else if (valueSelected === "String exists") {
+                $('#id_threshold').parent().addClass("hide");
+                $('#id_search_string').parent().removeClass("hide");
+            }
+        });
+
+
     </script>
 {% endblock %}
