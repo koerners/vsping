@@ -14,7 +14,8 @@ class Job(models.Model):
     url = models.URLField(max_length=100)
     name = models.CharField(max_length=100, null=True)
     check_every = models.CharField(max_length=100,
-                                   choices=[('15', '15 Minutes'), ('30', '30 Minutes'), ('60', '1 Hours'),
+                                   choices=[('1', '1 Minutes'), ('15', '15 Minutes'), ('30', '30 Minutes'),
+                                            ('60', '1 Hours'),
                                             ('180', '3 Hours'), ('360', '6 Hours'), ('720', '12 Hours')])
     check_until = models.DateField(null=True)
     html_current = models.BinaryField(null=True)

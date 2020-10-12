@@ -1,15 +1,17 @@
-from datetime import datetime
+import logging
 
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils import timezone
 
 from sitechecker.forms import CustomUserCreationForm, JobForm, UpdateJobForm
 from sitechecker.models import Job
 from sitechecker.src.controller import get_screenshot, get_html
 
+logger = logging.getLogger(__name__)
 
 @login_required
 def dashboard(request):
@@ -95,12 +97,17 @@ def new_job(request):
         if form.is_valid():
             job = form.save(commit=False)
             job.owner = request.user
-            job.date_added = datetime.now()
+            job.date_added = timezone.now()
+            job.last_checked = timezone.now()
+            job.last_change = timezone.now()
+
             try:
                 job.html_current = get_html(str(job.url))
                 job.screenshot = get_screenshot(job.url)
+                logger.info('New Job created' + str(request.POST))
+
             except:
-                pass
+                logger.error('Something went wrong when creating a new Job! ' + str(request.POST))
 
             job.save()
 

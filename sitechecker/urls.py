@@ -1,8 +1,10 @@
 from django.conf.urls import url
 from django.urls import include, path
 
+from sitechecker.src.controller import check_jobs
 from sitechecker.views import dashboard, register, new_job, job_detail, landing, job_edit, job_reset, job_delete
 
+check_jobs(repeat=900)
 urlpatterns = [
     url(r"^accounts/", include("django.contrib.auth.urls")),
     url(r"^register/", register, name="register"),
