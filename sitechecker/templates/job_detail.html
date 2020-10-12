@@ -67,9 +67,12 @@
             </div>
 
             <div class="row" style="float: right">
+                {% if not userjob.is_active %}
+                    <a href="{% url 'job_reset' job_id=userjob.id %}" class="waves-effect waves-light green btn"
+                       style=""><i class="material-icons right">play_arrow</i>Enable</a>{% endif %}
+                <a class='dropdown-trigger btn' href='#' data-target='dropdown3'><i class="material-icons right">settings</i>Edit</a>
                 <a href="{% url 'job_delete' job_id=userjob.id %}" class="waves-effect waves-light red btn"
                    style=""><i class="material-icons right">delete</i>Delete</a>
-                <a class='dropdown-trigger btn' href='#' data-target='dropdown3'><i class="material-icons right">settings</i>Edit</a>
             </div>
 
             <ul id='dropdown3' class='dropdown-content' style="min-width: 200px">

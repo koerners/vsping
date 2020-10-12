@@ -41,27 +41,25 @@ def get_html(url):
 
 def compareSite(job: Job):
     old = job.html_current.decode("utf-8")
-    new = get_html(job.url)
+    new = get_html(job.url).decode("utf-8")
     new_similarity = SequenceMatcher(None, old, new).ratio()
-    old_similarity = job.similarity
     job.similarity = new_similarity
     job.last_checked = timezone.now()
-    try:
-        diff = old_similarity - float(new_similarity)
-    except:
-        diff = 0
+    job.save()
+    return new_similarity
 
-    return diff
 
 
 @background
 def check_job(job_id):
     job = Job.objects.filter(id=job_id)[0]
     diff = compareSite(job)
-    if diff > 0:
+    if diff < (job.threshold / 100):
         job.last_change = timezone.now()
+        job.is_active = False
+        job.save()
         user = job.owner
-        print(user.email, "Alert")
+        logger.info("Notify", user.email, job.name, diff * 100, job.threshold)
 
 
 @background

@@ -67,6 +67,10 @@ def job_reset(request, job_id):
 
     user_job = user_job[0]
     user_job.similarity = 1
+    user_job.is_active = True
+    user_job.html_current = get_html(str(user_job.url))
+    user_job.screenshot = get_screenshot(user_job.url)
+    user_job.save()
 
     return redirect("job_detail", job_id=user_job.id)
 
