@@ -19,11 +19,9 @@ class CustomUserCreationForm(UserCreationForm):
 class JobForm(ModelForm):
     class Meta:
         model = Job
-        fields = ['name', 'url', 'check_every', 'method', 'threshold', 'search_string']
+        fields = ['name', 'url', 'check_every', 'threshold']
         labels = {
             'threshold': 'Alert Threshold in %',
-            'search_string': 'Search String (Whitespace separated)'
-
         }
 
 

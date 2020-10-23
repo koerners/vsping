@@ -49,33 +49,11 @@ def compareSite(job: Job):
     return new_similarity
 
 
-def check_for_string(job: Job):
-    new = get_html(job.url).decode("utf-8")
-    search_string = job.search_string.split()
-    job.last_checked = timezone.now()
-    job.save()
-    results = 0
-    for word in search_string:
-        if word in new:
-            results = results + 1
-    return results / len(search_string)
-
-
 @background
 def check_job(job_id):
     job = Job.objects.filter(id=job_id)[0]
-    change = False
-    if job.method == "Changes in Content":
-        diff = compareSite(job)
-        if diff < (job.threshold / 100):
-            change = True
-
-    elif job.method == "String exists":
-        diff = check_for_string(job)
-        if diff > 0.5:
-            change = True
-
-    if change:
+    diff = compareSite(job)
+    if diff < (job.threshold / 100):
         job.last_change = timezone.now()
         job.is_active = False
         job.save()
