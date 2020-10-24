@@ -35,7 +35,7 @@ def get_html(url):
     main_url = str(url)
     req = requests.get(main_url)
     soup = BeautifulSoup(req.text, "html.parser").text
-    text = " ".join([ll.rstrip() for ll in soup.splitlines() if ll.strip()])
+    text = "\n".join([ll.rstrip() for ll in soup.splitlines() if ll.strip()])
     return text.encode("utf-8")
 
 

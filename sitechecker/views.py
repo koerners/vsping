@@ -13,6 +13,7 @@ from sitechecker.src.controller import get_screenshot, get_html
 
 logger = logging.getLogger(__name__)
 
+
 @login_required
 def dashboard(request):
     context = {
@@ -36,7 +37,32 @@ def job_detail(request, job_id):
         'userjob': user_job[0]
     }
 
-    return render(request, "job_detail.html", context)
+    return render(request, "job_detail_screenshot.html", context)
+
+
+@login_required
+def job_detail_differences_html(request, job_id):
+    user_job = Job.objects.filter(owner=request.user, id=int(job_id))
+    if len(user_job) < 1:
+        return redirect(reverse("dashboard"))
+
+    import sitechecker.src.diff_matcher as dmp_module
+
+    job = user_job[0]
+    old = job.html_current.decode("utf-8")
+    new = get_html(job.url).decode("utf-8")
+    dmp = dmp_module.diff_match_patch()
+    dmp.Diff_Timeout = 5.0
+    diff = dmp.diff_main(old, new)
+    dmp.diff_cleanupSemantic(diff)
+    html_diff = dmp.diff_prettyHtml(diff)
+
+    context = {
+        'userjob': job,
+        'diffs': html_diff
+    }
+
+    return render(request, "job_detail_differences_html.html", context)
 
 
 @login_required
