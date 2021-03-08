@@ -1,5 +1,6 @@
-# vsping
+# WIP: vsping
 
+Application to regularly check websites for changes.
 
 Run Queue
 ```
